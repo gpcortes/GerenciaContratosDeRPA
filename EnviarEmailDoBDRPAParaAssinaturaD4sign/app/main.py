@@ -5,12 +5,14 @@ from caworker import Worker
 from os.path import expanduser
 from os import getenv
 from time import sleep
+import envconfiguration as config
+
 
 home = expanduser("~")
 
 worker = Worker()
 
-DOMAIN_NAME = getenv('DOMAIN_NAME')
+DOMAIN_NAME = config.DOMAIN_NAME
 
 
 def create_jwt_token(private_key):

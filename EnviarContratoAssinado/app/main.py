@@ -1,12 +1,12 @@
-from worker import worker
+from caworker import Worker
 from storage import JoomlaStorage
 from time import sleep
 from os.path import expanduser
 import javaobj
 from base64 import b64decode
 
-worker = Worker()
 
+worker = Worker()
 
 def unserialize(data):
     if data.type_ == 'Object':

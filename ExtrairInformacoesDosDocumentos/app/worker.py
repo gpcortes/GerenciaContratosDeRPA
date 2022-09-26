@@ -6,21 +6,23 @@ import requests.sessions
 import pycamunda.processinst
 import getDataCNH
 import platform
+import envconfiguration as config
+
 
 HOST = platform.node()
 
-url = 'http://camunda:8080/engine-rest'
+url = config.ENG_REST_URL
 worker_id = HOST + '-pyworker-get-data-doc'
 
 session = requests.sessions.Session()
 session.auth = requests.auth.HTTPBasicAuth(
-    username="admin", password="CETT@root.8401")
+    username=config.ENG_REST_USERNAME, password=config.ENG_REST_PASSWORD)
 
 
 def execute_task(url, session, worker_id):
     fetch_and_lock = pycamunda.externaltask.FetchAndLock(
         url=url, worker_id=worker_id, max_tasks=1)
-    fetch_and_lock.add_topic(name='ExtrairInformacoesDosDocumentosTask', lock_duration=30000)
+    fetch_and_lock.add_topic(name=config.TOPIC, lock_duration=30000)
     fetch_and_lock.session = session
 
 

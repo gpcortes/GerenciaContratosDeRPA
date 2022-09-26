@@ -6,13 +6,16 @@ from caworker import Worker
 import hmac
 from requests import get as rest_get
 import os
+import envconfiguration as config
+
+
 home = os.path.expanduser("~")
 
 worker = Worker()
 
 app = Flask(__name__)
 
-APP_DEBUG = True if os.getenv('NODE_ENV') != 'production' else False
+APP_DEBUG = True if config.ENV != 'production' else False
 
 
 def download_file(url, file_path):

@@ -1,4 +1,4 @@
-from worker import worker
+from caworker import Worker
 from preencher_formulario import preencherRpa
 from os.path import expanduser
 from os import makedirs

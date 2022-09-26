@@ -8,21 +8,17 @@ import subprocess
 import re
 import os
 import ftplib
+import envconfiguration as config
+
 
 home = expanduser("~")
 
 def load_env():
-    if os.getenv('ENV') != 'production':
-        from os.path import join, dirname
-        from dotenv import load_dotenv
-        dotenv_path = join(dirname(__file__), 'finan.env')
-        load_dotenv(dotenv_path)
-
-    FINAN_HOST_DB = os.getenv('FINAN_HOST_DB')
-    FINAN_PORT_DB = os.getenv('FINAN_PORT_DB')
-    FINAN_USER_DB = os.getenv('FINAN_USER_DB')
-    FINAN_PASSWD_DB = os.getenv('FINAN_PASSWD_DB')
-    FINAN_DB = os.getenv('FINAN_DB')
+    FINAN_HOST_DB = config.FINAN_HOST_DB
+    FINAN_PORT_DB = config.FINAN_PORT_DB
+    FINAN_USER_DB = config.FINAN_USER_DB
+    FINAN_PASSWD_DB = config.FINAN_PASSWD_DB
+    FINAN_DB = config.FINAN_DB
 
     return FINAN_HOST_DB, FINAN_PORT_DB, FINAN_USER_DB, FINAN_PASSWD_DB, FINAN_DB
 

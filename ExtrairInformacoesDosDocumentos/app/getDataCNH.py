@@ -11,23 +11,19 @@ import ftplib
 from datetime import date, datetime
 import locale
 import pycamunda.task
+import envconfiguration as config
+
 # locale.setlocale(locale.LC_TIME, "pt_BR")
 
 def load_env():
-    if os.getenv('EVN') != 'production':
-        from os.path import join, dirname
-        from dotenv import load_dotenv
-        dotenv_path = join(dirname(__file__), 'finan.env')
-        load_dotenv(dotenv_path)
-
-    FINAN_HOST_DB = os.getenv('FINAN_HOST_DB')
-    FINAN_PORT_DB = os.getenv('FINAN_PORT_DB')
-    FINAN_USER_DB = os.getenv('FINAN_USER_DB')
-    FINAN_PASSWD_DB = os.getenv('FINAN_PASSWD_DB')
-    FINAN_DB = os.getenv('FINAN_DB')
-    FINAN_FTP_HOST = os.getenv('FINAN_FTP_HOST')
-    FINAN_FTP_USER = os.getenv('FINAN_FTP_USER')
-    FINAN_FTP_PASSWD = os.getenv('FINAN_FTP_PASSWD')
+    FINAN_HOST_DB = config.FINAN_HOST_DB
+    FINAN_PORT_DB = config.FINAN_PORT_DB
+    FINAN_USER_DB = config.FINAN_USER_DB
+    FINAN_PASSWD_DB = config.FINAN_PASSWD_DB
+    FINAN_DB = config.FINAN_DB
+    FINAN_FTP_HOST = config.FINAN_FTP_HOST
+    FINAN_FTP_USER = config.FINAN_FTP_USER
+    FINAN_FTP_PASSWD = config.FINAN_FTP_PASSWD
 
     return FINAN_HOST_DB, FINAN_PORT_DB, FINAN_USER_DB, FINAN_PASSWD_DB, FINAN_DB, FINAN_FTP_HOST, FINAN_FTP_USER, FINAN_FTP_PASSWD
 

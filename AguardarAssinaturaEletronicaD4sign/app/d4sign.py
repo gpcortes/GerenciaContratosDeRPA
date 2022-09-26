@@ -2,10 +2,15 @@ import os
 import requests
 import json
 from requests_toolbelt import MultipartEncoder
+import envconfiguration as config
 
 class client:
     def __init__(self):
-        self.D4SIGN_TOKEN, self.D4SIGN_KEY, self.D4SIGN_URL, self.D4SIGN_SAFE, self.D4SIGN_HMAC_KEY = self.__load_env()
+        self.D4SIGN_TOKEN = config.D4SIGN_TOKEN
+        self.D4SIGN_KEY = config.D4SIGN_KEY
+        self.D4SIGN_URL = config.D4SIGN_URL
+        self.D4SIGN_SAFE = config.D4SIGN_SAFE
+        self.D4SIGN_HMAC_KEY = config.D4SIGN_HMAC_KEY
         self.UUID_SAFE = self.__get_safe(self.D4SIGN_SAFE)
         self.signers_group = {
             'signers': []
@@ -41,21 +46,6 @@ class client:
             "d4sign_score_similarity": "75",
         }
         self.fields = {}
-
-    def __load_env(self):
-        if os.getenv('NODE_ENV') != 'production':
-            from os.path import join, dirname
-            from dotenv import load_dotenv
-            dotenv_path = join(dirname(__file__), 'd4sign.env')
-            load_dotenv(dotenv_path)
-
-        D4SIGN_TOKEN = os.getenv('D4SIGN_TOKEN')
-        D4SIGN_KEY = os.getenv('D4SIGN_KEY')
-        D4SIGN_URL = os.getenv('D4SIGN_URL')
-        D4SIGN_SAFE = os.getenv('D4SIGN_SAFE')
-        D4SIGN_HMAC_KEY = os.getenv('D4SIGN_HMAC_KEY')
-
-        return D4SIGN_TOKEN, D4SIGN_KEY, D4SIGN_URL, D4SIGN_SAFE, D4SIGN_HMAC_KEY
 
     def __send(self, method, payload=None):
 

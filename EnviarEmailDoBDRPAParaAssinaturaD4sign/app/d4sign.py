@@ -2,15 +2,19 @@ import os
 import requests
 import json
 from requests_toolbelt import MultipartEncoder
+import envconfiguration as config
 
 class client:
     def __init__(self):
-        self.D4SIGN_TOKEN, self.D4SIGN_KEY, self.D4SIGN_URL, self.D4SIGN_SAFE, self.D4SIGN_HMAC_KEY = self.__load_env()
+        self.D4SIGN_TOKEN = config.D4SIGN_TOKEN
+        self.D4SIGN_KEY = config.D4SIGN_KEY
+        self.D4SIGN_URL = config.D4SIGN_URL
+        self.D4SIGN_SAFE = config.D4SIGN_SAFE
+        self.D4SIGN_HMAC_KEY = config.D4SIGN_HMAC_KEY
         self.UUID_SAFE = self.__get_safe(self.D4SIGN_SAFE)
-        self.signers = {
+        self.signers_group = {
             'signers': []
         }
-        self.signer_collection = self.signers.copy()
         self.signer = {
             "email": "",
             "act": "1",
@@ -43,21 +47,6 @@ class client:
         }
         self.fields = {}
 
-    def __load_env(self):
-        if os.getenv('NODE_ENV') != 'production':
-            from os.path import join, dirname
-            from dotenv import load_dotenv
-            dotenv_path = join(dirname(__file__), 'd4sign.env')
-            load_dotenv(dotenv_path)
-
-        D4SIGN_TOKEN = os.getenv('D4SIGN_TOKEN')
-        D4SIGN_KEY = os.getenv('D4SIGN_KEY')
-        D4SIGN_URL = os.getenv('D4SIGN_URL')
-        D4SIGN_SAFE = os.getenv('D4SIGN_SAFE')
-        D4SIGN_HMAC_KEY = os.getenv('D4SIGN_HMAC_KEY')
-
-        return D4SIGN_TOKEN, D4SIGN_KEY, D4SIGN_URL, D4SIGN_SAFE, D4SIGN_HMAC_KEY
-
     def __send(self, method, payload=None):
 
         http_method = 'POST' if payload else 'GET'
@@ -84,8 +73,6 @@ class client:
 
     def __get_safe(self, name_safe):
         safe = self.__send('safes')
-
-        print(safe)
 
         uuid_safe = None
 
@@ -122,9 +109,6 @@ class client:
     def add_signers(self, uuid_document, signers):
         return self.__send('documents/{uuid_document}/createlist'.format(uuid_document=uuid_document), json.dumps(signers))
 
-    def list_signers(self, uuid_document):
-        return self.__send('documents/{uuid_document}/list'.format(uuid_document=uuid_document))
-
     def send_to_sign(self, uuid_document):
         payload = {
             "message": "Assinatura de documento",
@@ -141,9 +125,9 @@ class client:
 
         return self.__send('folders/create', json.dumps(payload))
 
-    def download_document(self, uuid_document):
+    def download_document(self, uuid_document, format="PDF"):
         payload = {
-            "type": "PDF",
+            "type": format,
             "language": "pt"
         }
 
