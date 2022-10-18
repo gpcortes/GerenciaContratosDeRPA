@@ -37,7 +37,7 @@ RUN adduser -u 1000 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 WORKDIR /home/appuser
-COPY ./app /home/appuser
+COPY --chown=appuser:appuser ./app /home/appuser
 RUN mkdir /home/appuser/outputs
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug

@@ -36,7 +36,7 @@ RUN adduser -u 1000 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 WORKDIR /home/appuser
-COPY ./app /home/appuser
+COPY --chown=appuser:appuser ./app /home/appuser
 RUN mkdir /home/appuser/outputs
 RUN mkdir -p /home/appuser/keys/private
 
