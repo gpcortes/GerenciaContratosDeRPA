@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim-buster
+FROM python:3.8-slim
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -12,9 +12,9 @@ RUN apt update && apt dist-upgrade -y
 RUN apt install -y locales libc-bin locales-all
 
 RUN sed -i '/pt_BR.UTF-8/s/^#//g' /etc/locale.gen \
-    && locale-gen en_US en_US.UTF-8 pt_BR pt_BR.UTF-8 \
-    && dpkg-reconfigure locales \
-    && update-locale LANG=pt_BR.UTF-8 LANGUAGE=pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
+  && locale-gen en_US en_US.UTF-8 pt_BR pt_BR.UTF-8 \
+  && dpkg-reconfigure locales \
+  && update-locale LANG=pt_BR.UTF-8 LANGUAGE=pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
 ENV LANG pt_BR.UTF-8  
 ENV LANGUAGE pt_BR:pt  
 ENV LC_ALL pt_BR.UTF-8
